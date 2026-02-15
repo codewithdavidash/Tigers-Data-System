@@ -1,0 +1,140 @@
+{% extends 'base/base.html' %}
+{% load static %}
+{% block title %}Dashboard | Tigers Data{% endblock title %}
+
+{% block content %}
+<div class="flex min-h-screen bg-[#0f172a] text-gray-100 font-sans">
+
+    <aside class="w-72 bg-gray-900/50 backdrop-blur-xl border-r border-yellow-500/30 hidden lg:flex flex-col">
+        <div class="p-8">
+            <h1 class="text-3xl font-black text-yellow-400 tracking-tighter uppercase italic">
+                Tigers<span class="text-white">Data</span>
+            </h1>
+            <p class="text-[10px] text-yellow-500/60 tracking-[0.2em] font-bold mt-1">SECURE VAULT v3.0</p>
+        </div>
+
+        <nav class="flex-1 px-4 space-y-2 mt-4">
+            <a href="{% url 'index' %}" class="group flex items-center gap-3 px-4 py-3 rounded-xl bg-yellow-500/10 border border-yellow-500/20 text-yellow-400 transition">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2V6zM14 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V6zM4 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2v-2zM14 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z" /></svg>
+                <span class="font-medium">Command Center</span>
+            </a>
+            <a href="{% url 'upload_document' %}" class="group flex items-center gap-3 px-4 py-3 rounded-xl hover:bg-white/5 text-gray-400 hover:text-yellow-400 transition">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12" /></svg>
+                <span>Upload Encrypted</span>
+            </a>
+        </nav>
+
+        <div class="p-4 mt-auto border-t border-white/5">
+            <a href="{% url 'logout' %}" class="flex items-center gap-3 px-4 py-3 text-red-400 hover:bg-red-400/10 rounded-xl transition">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7" /></svg>
+                <span>Terminate Session</span>
+            </a>
+        </div>
+    </aside>
+
+    <main class="flex-1 flex flex-col min-w-0">
+        <header class="h-20 flex justify-between items-center px-8 bg-gray-900/30 backdrop-blur-md border-b border-white/5">
+            <div>
+                <h2 class="text-xl font-bold">Systems Overview</h2>
+                <p class="text-xs text-gray-500">Node Status: <span class="text-green-500">Encrypted & Online</span></p>
+            </div>
+            <div class="flex items-center gap-6">
+                <div class="text-right hidden sm:block">
+                    <p class="text-sm font-bold text-yellow-400">{{ request.user.username }}</p>
+                    <p class="text-[10px] text-gray-500 uppercase tracking-widest">Authorized Access</p>
+                </div>
+                <div class="h-10 w-10 rounded-full bg-gradient-to-tr from-yellow-500 to-yellow-200 border-2 border-white/10 shadow-lg shadow-yellow-500/20"></div>
+            </div>
+        </header>
+
+        <section class="p-8 space-y-10 overflow-y-auto">
+
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
+                <div class="p-5 rounded-2xl bg-white/5 border border-white/10">
+                    <p class="text-xs text-gray-500 uppercase font-bold mb-1">Total Assets</p>
+                    <h3 class="text-2xl font-black text-white">{{ recent_docs|length }}</h3>
+                </div>
+                <div class="p-5 rounded-2xl bg-white/5 border border-white/10">
+                    <p class="text-xs text-gray-500 uppercase font-bold mb-1">Shared Inbound</p>
+                    <h3 class="text-2xl font-black text-blue-400">{{ shared_with_me|length }}</h3>
+                </div>
+                <div class="md:col-span-2 p-5 rounded-2xl bg-yellow-500/10 border border-yellow-500/20 flex justify-between items-center">
+                    <div>
+                        <p class="text-xs text-yellow-500/60 uppercase font-bold mb-1">Security Key Status</p>
+                        <h3 class="text-lg font-bold text-yellow-400">Fernet Symmetric-256 Active</h3>
+                    </div>
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-yellow-500" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" /></svg>
+                </div>
+            </div>
+
+            <div>
+                <div class="flex justify-between items-end mb-6">
+                    <div>
+                        <h2 class="text-2xl font-bold text-white">Your Encrypted Vault</h2>
+                        <p class="text-sm text-gray-500">Only accessible via your private key.</p>
+                    </div>
+                    <a href="{% url 'upload_document' %}" class="text-sm font-bold text-yellow-400 hover:text-yellow-300 flex items-center gap-1 transition">
+                        <span>+ New Upload</span>
+                    </a>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                    {% for doc in recent_docs %}
+                    <div class="group bg-white/5 border border-white/10 rounded-2xl p-6 hover:bg-white/[0.08] hover:border-yellow-500/50 transition-all duration-300">
+                        <div class="flex justify-between items-start mb-4">
+                            <div class="h-12 w-12 rounded-xl bg-yellow-500/20 flex items-center justify-center text-yellow-400">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" /></svg>
+                            </div>
+                            <span class="text-[10px] font-bold bg-white/5 px-2 py-1 rounded text-gray-400 uppercase tracking-tighter">{{ doc.doc_type }}</span>
+                        </div>
+                        
+                        <h4 class="font-bold text-white group-hover:text-yellow-400 transition mb-1 truncate">{{ doc.title }}</h4>
+                        <p class="text-xs text-gray-500 mb-4">{{ doc.uploaded_at|date:"M d, Y" }} • {{ doc.downloads }} downloads</p>
+
+                        <div class="flex flex-wrap gap-1 mb-6">
+                            {% for share in doc.shares.all %}
+                                <span class="text-[9px] bg-yellow-500/10 text-yellow-500 px-2 py-0.5 rounded border border-yellow-500/20">Shared with {{ share.shared_with.username }}</span>
+                            {% empty %}
+                                <span class="text-[9px] text-gray-600">Isolated Instance</span>
+                            {% endfor %}
+                        </div>
+
+                        <div class="flex gap-2">
+                            <a href="{% url 'download_document' doc.id %}" class="flex-1 bg-yellow-500 hover:bg-yellow-400 text-gray-900 text-center py-2 rounded-lg font-bold text-xs transition">Download</a>
+                            <a href="{% url 'share_document' doc.id %}" class="flex-1 border border-white/10 hover:border-yellow-500/50 text-white text-center py-2 rounded-lg font-bold text-xs transition">Grant Access</a>
+                        </div>
+                    </div>
+                    {% empty %}
+                    <div class="col-span-full border-2 border-dashed border-white/5 rounded-3xl p-20 text-center">
+                        <p class="text-gray-500">Vault is currently empty.</p>
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+
+            {% if shared_with_me %}
+            <div>
+                <h2 class="text-2xl font-bold text-white mb-6">Shared Inbound <span class="text-blue-400 text-sm ml-2 font-normal">Files from other nodes</span></h2>
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                    {% for share in shared_with_me %}
+                    <div class="bg-blue-500/5 border border-blue-500/20 rounded-2xl p-6 transition">
+                        <div class="flex justify-between items-start mb-4">
+                            <div class="h-12 w-12 rounded-xl bg-blue-500/20 flex items-center justify-center text-blue-400">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7v8a2 2 0 002 2h6M8 7V5a2 2 0 012-2h4.586a1 1 0 01.707.293l4.414 4.414a1 1 0 01.293.707V15a2 2 0 01-2 2h-2M8 7H6a2 2 0 00-2 2v10a2 2 0 002 2h8a2 2 0 002-2v-2" /></svg>
+                            </div>
+                            <span class="text-[9px] font-bold text-red-400 bg-red-400/10 px-2 py-1 rounded">EXPIRES: {{ share.expires_at|timeuntil }}</span>
+                        </div>
+                        <h4 class="font-bold text-white mb-1 truncate">{{ share.document.title }}</h4>
+                        <p class="text-xs text-blue-400 mb-6 font-medium">Source: {{ share.document.owner.username }}</p>
+
+                        <a href="{% url 'download_document' share.document.id %}" class="block w-full bg-blue-600 hover:bg-blue-500 text-white text-center py-2.5 rounded-lg font-bold text-xs shadow-lg shadow-blue-600/20 transition">Decrypt & Download</a>
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+            {% endif %}
+
+        </section>
+    </main>
+</div>
+{% endblock content %}

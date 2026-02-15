@@ -1,0 +1,76 @@
+{% extends 'base/base.html' %}
+{% load static %}
+{% load widget_tweaks %}
+
+{% block title %}Grant Access | Tigers Data{% endblock title %}
+
+{% block content %}
+<div class="min-h-screen bg-[#0f172a] flex flex-col justify-center items-center px-4 relative overflow-hidden">
+    
+    <div class="absolute top-[-10%] right-[-10%] w-[40%] h-[40%] bg-yellow-500/5 rounded-full blur-[120px]"></div>
+    <div class="absolute bottom-[-10%] left-[-10%] w-[40%] h-[40%] bg-blue-500/5 rounded-full blur-[120px]"></div>
+
+    <div class="text-center mb-10 z-10">
+        <h1 class="text-3xl md:text-4xl font-black text-white uppercase italic tracking-tighter">
+            Access<span class="text-yellow-400">Provisioning</span>
+        </h1>
+        <p class="text-[10px] text-yellow-500/60 tracking-[0.4em] font-bold uppercase mt-2">Target Asset: {{ doc.title }}</p>
+    </div>
+
+    <div class="max-w-md w-full bg-gray-900/40 backdrop-blur-2xl border border-white/10 rounded-3xl p-8 shadow-2xl z-10">
+        <form method="POST" class="space-y-8">
+            {% csrf_token %}
+
+            <div class="space-y-4">
+                <div class="p-4 rounded-2xl bg-white/5 border border-white/5">
+                    <label class="text-[10px] font-bold text-gray-500 uppercase tracking-widest block mb-3 ml-1">
+                        Select Authorized Operator
+                    </label>
+                    <select name="shared_with" required 
+                            class="w-full bg-black/40 border border-white/10 rounded-xl px-4 py-3 text-yellow-400 focus:outline-none focus:border-yellow-500/50 transition-all appearance-none cursor-pointer">
+                        <option value="" disabled selected>Select User Identity...</option>
+                        {% for user in users %}
+                            <option value="{{ user.id }}" class="bg-gray-900 text-white">{{ user.username }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+
+                <div class="space-y-3 px-1">
+                    <div class="flex items-center justify-between text-[11px]">
+                        <span class="text-gray-400 uppercase font-medium">Link Duration</span>
+                        <span class="text-yellow-400 font-bold">48 Hours</span>
+                    </div>
+                    <div class="flex items-center justify-between text-[11px]">
+                        <span class="text-gray-400 uppercase font-medium">Permission Level</span>
+                        <span class="text-blue-400 font-bold">Read / Decrypt</span>
+                    </div>
+                    <div class="flex items-center justify-between text-[11px]">
+                        <span class="text-gray-400 uppercase font-medium">Encryption Key</span>
+                        <span class="text-green-500 font-bold italic">AES-256 Symmetric</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="pt-2">
+                <button type="submit"
+                        class="w-full py-4 bg-yellow-500 hover:bg-yellow-400 text-gray-900 font-black uppercase tracking-widest rounded-xl transition-all duration-300 shadow-lg shadow-yellow-500/20 hover:shadow-yellow-400/40 active:scale-[0.98]">
+                    Confirm Access Grant
+                </button>
+            </div>
+            
+            <div class="text-center">
+                <a href="{% url 'index' %}" class="text-[10px] font-bold text-gray-600 uppercase tracking-widest hover:text-yellow-500 transition">
+                    Abort Protocol
+                </a>
+            </div>
+        </form>
+    </div>
+
+    <div class="mt-8 flex items-center gap-2 text-gray-600 z-10">
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 00-2 2zm10-10V7a4 4 0 00-8 0v4h8z" />
+        </svg>
+        <p class="text-[9px] uppercase tracking-widest">Access logs will be recorded upon confirmation</p>
+    </div>
+</div>
+{% endblock content %}
